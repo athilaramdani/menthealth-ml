@@ -1,0 +1,6 @@
+Total file     : 189
+Durasi min     : 414.80 detik (6.91 menit)
+Durasi max     : 1966.20 detik (32.77 menit)
+Durasi mean    : 956.33 detik
+Durasi std     : 269.25 detik
+Sampling Rate  : {16000: 189}

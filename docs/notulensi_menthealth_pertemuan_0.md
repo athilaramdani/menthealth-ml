@@ -186,6 +186,184 @@ Beberapa hal menarik yang dicatat selama pertemuan:
 
 
 ---
+
+## 11. MATERI PPT PERTEMUAN 0
+
+> Berikut adalah rekap lengkap materi yang disampaikan melalui slide presentasi oleh Mentor pada Pertemuan 0.
+
+### Slide 1 — Identitas Proyek
+**Judul**: Klasifikasi Kesehatan Mental Berbasis Audio
+**Kategori**: Depresi · Kecemasan · Stress
+**Tipe**: Computing Project — Pertemuan 1 (Kick-off Meeting)
+*Audio Analysis | Website | XAI | 3 Orang | 8 Minggu*
+
+---
+
+### Slide 2 — Agenda Pertemuan
+1. Gambaran besar proyek: Audio classification + website + XAI
+2. Dataset & Audio Features: DAIC-WOZ, MODMA, ekstraksi fitur audio
+3. ML vs DL + XAI: Model klasifikasi & Explainable AI
+4. Arsitektur Website: Frontend, Backend API, visualisasi XAI
+5. Timeline 8 Minggu (2 Bulan): 6 fase terstruktur, milestone per minggu
+6. Pembagian Tim 3 Orang: Peran, ekspektasi, deliverables
+
+---
+
+### Slide 3 — Gambaran Besar Proyek
+Membangun website klasifikasi kesehatan mental berbasis fitur audio dari dataset publik, dengan perbandingan ML vs DL, dilengkapi XAI untuk transparansi prediksi. Dikerjakan 3 orang dalam 2 bulan (8 minggu).
+
+| Aspek | Detail |
+| --- | --- |
+| **Target Kondisi** | Depresi (MDD), Kecemasan (GAD), Stress |
+| **Pendekatan Unik** | Audio-only features, ML vs DL comparison, XAI (LIME/SHAP/Grad-CAM), Website dashboard |
+| **Dataset Publik** | DAIC-WOZ (189 interview), MODMA (52 audio) |
+| **Fitur Audio** | MFCC, Pitch, Energy |
+| **Output** | Klasifikasi label, Confidence score, XAI dominance map |
+
+---
+
+### Slide 4 — Alur Sistem End-to-End
+```
+Dataset Audio (DAIC-WOZ / MODMA)
+    ↓
+Preprocessing & Feature Extraction
+(Noise reduction, segmentation, MFCC, Spectral, Prosodic)
+    ↓
+Machine Learning / Deep Learning Klasifikasi
+(Random Forest, SVM, CNN, LSTM)
+    ↓
+XAI — Explainable AI Explanation
+(SHAP, LIME)
+    ↓
+Website Dashboard
+(React/Vue, Flask/FastAPI)
+```
+
+---
+
+### Slide 5 — Audio Feature Extraction
+Fitur-fitur akustik yang diekstrak dari rekaman suara:
+
+| Fitur | Penjelasan | Relevansi Klinis |
+| --- | --- | --- |
+| **MFCC** | Mel-Frequency Cepstral Coefficients. Merepresentasikan spektrum audio sesuai persepsi manusia. | Fitur paling umum untuk speech analysis |
+| **Pitch / F0** | Frekuensi dasar suara. | Orang depresi cenderung pitch lebih rendah & monoton |
+| **Energy / Intensity** | Kekuatan sinyal audio. | Berkurang pada depresi, meningkat pada kecemasan |
+| **Spectral Features** | Spectral centroid, bandwidth, rolloff. | Menangkap karakteristik frekuensi emosi |
+
+*Tools yang disarankan: `librosa`, `openSMILE`, `pyAudioAnalysis`, `Praat`*
+
+---
+
+### Slide 6 — Dataset Publik Audio Kesehatan Mental
+
+**DAIC-WOZ** *(Distress Analysis Interview Corpus — Wizard of Oz)*
+- 189 partisipan, data berupa rekaman wawancara (tanya jawab dengan AI "Ellie")
+- Kelas: **Depresi vs Normal** (diukur dengan skor PHQ-8)
+- Berisi: file `.wav`, `COVAREP.csv`, `FORMANT.csv`, `TRANSCRIPT.csv`, fitur visual OpenFace
+
+**MODMA** *(Multi-modal Open Dataset for Mental-disorder Analysis)*
+- 52 audio, terdiri dari *reading text* & *spontaneous speech*
+- Kelas: **Depresi / Anxiety / Normal**
+- ⚠️ *Dataset ini belum berhasil diunduh — akan diproses nanti*
+
+---
+
+### Slide 7 — Machine Learning vs Deep Learning
+
+| Kategori | Model |
+| --- | --- |
+| **Machine Learning** | SVM, Random Forest, XGBoost, Logistic Regression |
+| **Deep Learning** | 1D-CNN on spectrograms, LSTM / BiLSTM, wav2vec 2.0 (pre-trained), CNN-LSTM Hybrid |
+
+**Objective**: Membandingkan kedua pendekatan untuk mendapatkan akurasi terbaik, lalu menampilkan hasilnya secara paralel di website.
+
+---
+
+### Slide 8 — Explainable AI (XAI)
+Memberikan penjelasan mengapa model memberikan prediksi tertentu:
+
+| Metode XAI | Cara Kerja | Digunakan Untuk |
+| --- | --- | --- |
+| **SHAP** | Berbasis game theory, menghitung kontribusi setiap fitur audio (global & lokal) | ML & DL |
+| **LIME** | Membuat model sederhana di sekitar satu instance audio untuk penjelasan lokal | ML |
+| **Grad-CAM** | Visualisasi bagian spectrogram yang paling berpengaruh pada keputusan model | DL / CNN |
+
+**Manfaat**: Membangun kepercayaan pengguna (dokter/psikolog) terhadap prediksi model AI.
+
+---
+
+### Slide 9 — Arsitektur Website
+
+| Layer | Teknologi | Fungsi |
+| --- | --- | --- |
+| **Frontend** | React.js / Next.js + Tailwind CSS | Halaman upload `.wav`, hasil klasifikasi, dashboard XAI |
+| **Backend API** | FastAPI (Python) + Uvicorn | Terima audio, ekstraksi fitur, load model ML/DL, proses XAI |
+| **Visualisasi** | Chart.js / Recharts | Grafik fitur & visualisasi SHAP/LIME |
+
+---
+
+### Slide 10 — Evaluasi & Perbandingan Model
+
+| Metrik | Deskripsi |
+| --- | --- |
+| **Accuracy** | Persentase prediksi benar secara keseluruhan |
+| **Precision** | Ketepatan prediksi positif |
+| **Recall** | Kemampuan menangkap semua kasus positif |
+| **F1-Score** | Harmonic mean antara Precision & Recall |
+| **Confusion Matrix** | Analisis False Positive & False Negative |
+
+#### TARGET PERBANDINGAN
+Model | Tipe | Kelebihan | XAI Support |
+| ----- | --------- | --------- | ----- |
+| SVM | ML | Robust, interpretable | LIME, SHAP |
+| Random Forest | ML | Feature importance built-in | SHAP, built-in |
+| XGBoost | ML | High performance | SHAP (native) |
+| 1D-CNN | DL | Pattern recognition | Grad-CAM, SHAP |
+| LSTM | DL | Temporal patterns | LIME, SHAP |
+| wav2vec 2.0 | DL | Pre-trained, SOTA | SHAP, Attention |
+
+---
+
+### Slide 11 — Timeline Proyek (8 Minggu)
+
+| Minggu | Fase |
+| --- | --- |
+| **W1-W2** | EDA & Feature Extraction |
+| **W3-W4** | Model Development (ML vs DL) |
+| **W5** | Explainable AI (XAI) Integration |
+| **W6-W7** | Website Development & Integration |
+| **W8** | Final Testing, Deployment & Presentation |
+
+---
+
+### Slide 12 — Pembagian Tim & Peran
+
+| Orang | Peran | Tanggung Jawab |
+| --- | --- | --- |
+| **Person 1** | ML & Data Specialist | EDA, Feature Extraction, Training ML models (SVM, RF), XAI |
+| **Person 2** | Deep Learning Specialist | Preprocessing, Training DL models (CNN, LSTM), Optimization |
+| **Person 3** | Web Developer | Frontend React, Backend FastAPI, API Integration, XAI Visualization |
+
+---
+
+### Slide 13 — Deliverables (Output Proyek)
+1. Dataset & Features (`.csv` / `.pkl`)
+2. Trained Models (`.pkl` / `.pth`)
+3. Source Code (GitHub)
+4. Website Dashboard
+5. Final Report / Paper
+
+---
+
+### Slide 14 — Next Steps
+1. Setup Environment (Python, librosa, dll.)
+2. Data Collection (Download DAIC-WOZ)
+3. Start EDA pada file audio `.wav`
+4. Weekly Sync untuk update progres
+
+---
+
 Pertemuan ditutup dengan salam dan ucapan terima kasih dari seluruh peserta.
 *Assalamu'alaikum Warahmatullahi Wabarakatuh*
 
