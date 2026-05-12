@@ -16,11 +16,13 @@ Berdasarkan pembagian tugas pada Fase 1, langkah-langkah yang telah saya selesai
 ---
 
 ## 2. Analisis Isi Repositori (`menthealth-ml`)
+🔗 **Repository Link:** [https://github.com/athilaramdani/menthealth-ml](https://github.com/athilaramdani/menthealth-ml)
+
 Saya telah membangun struktur pipeline machine learning lengkap (berada di folder `experiments/daic`) untuk mengeksekusi model dengan baik. Berikut adalah analisis seluruh isi repositori:
 
-* **Direktori `experiments/daic` (Pipeline Utuh)**
-  Tahapan proyek dibagi dari Part 1 hingga Part 7 yang mengatur seluruh siklus *machine learning*:
-  * **Part 1 (Dataset Overview):** Script untuk me-load dataset DAIC-WOZ, mengecek file `_AUDIO.wav`, `_TRANSCRIPT.csv`, `_COVAREP.csv`, melakukan mapping manual nilai PHQ-8, dan membagi dataset menjadi 3 kelas target (Stress, Kecemasan, Depresi).
+* **Direktori `experiments/daic` & `experiments/modma` (Pipeline Utuh)**
+  Tahapan proyek dibagi dari Part 1 hingga Part 7 yang mengatur seluruh siklus *machine learning*, serta terdapat file `Part1_Dataset_Overview.py` (dan bentuk Jupyter `.ipynb`) di dalam subdirektori MODMA untuk analisis awal dataset MODMA:
+  * **Part 1 (Dataset Overview):** Script untuk me-load dataset (DAIC-WOZ dan MODMA), mengecek file `_AUDIO.wav` dsb, melakukan pembacaan label *ground truth* (PHQ-8 untuk DAIC-WOZ, dan metadata Excel PHQ-9 untuk MODMA), lalu membagi dataset menjadi 3 kelas target (Stress, Kecemasan, Depresi).
   * **Part 2 (Preprocessing):** Menangani pra-pemrosesan sinyal seperti resample dan pembuangan hening (*Voice Activity Detection*).
   * **Part 3 (Feature Extraction):** Ekstraksi fitur akustik penting (MFCC, Pitch/F0, RMS Energy).
   * **Part 4 & Part 5 (Dataset Building & Split Data):** Pembentukan tabular dan strategi cross-validation yang ketat dengan cara pemisahan *training-test* per partisipan (bukan segmen) guna menghindari data *leakage*.
@@ -45,6 +47,14 @@ Berikut adalah data detail untuk dataset yang telah dikumpulkan berdasarkan rise
 * **Total Zip:** ± 189 zip
 * **Size per ZIP:** ± 200-600 Mb
 
+**Struktur Folder per Partisipan (DAIC-WOZ):**
+Setiap partisipan memiliki folder berformat `{ID}_P` (contoh: `300_P`). Di dalamnya terdapat:
+* `300_AUDIO.wav`: Rekaman wawancara audio mentah (durasi belasan menit).
+* `300_TRANSCRIPT.csv`: Transkrip percakapan interaktif antara partisipan dengan agen virtual "Ellie".
+* `300_COVAREP.csv`: Fitur akustik per-frame (Pitch, VUV, NAQ) yang telah diekstrak secara otomatis.
+* `300_FORMANT.csv`: Fitur ekstraksi frekuensi vokal.
+* `300_CLNF_*.txt`: Fitur visual gerakan wajah dari OpenFace (untuk modalitas visual/video).
+
 ### **MODMA (Multi-modal Open Dataset for Mental-disorder Analysis)**
 * **Total Partisipan:** 52 Partisipan (29 Healthy Control/HC, 23 Major Depressive Disorder/MDD)
 * **Rata-rata Jumlah File/Partisipan:** Tepat 29 file `.wav` baik untuk HC maupun MDD.
@@ -53,6 +63,14 @@ Berikut adalah data detail untuk dataset yang telah dikumpulkan berdasarkan rise
   * MDD: ~499.1 detik (~8.3 menit)
 * **Rata-rata Durasi Per File Rekaman:** ~17 detik (baik HC maupun MDD).
 * **Total File Audio:** 1.503 file.
+
+**Struktur Folder per Partisipan (MODMA):**
+Partisipan disimpan dalam folder bernomor ID unik (contoh: `02010001`). Pendekatannya bersifat *task-oriented*, di mana 1 folder partisipan berisi tepat **29 file `.wav`**, yang dipisah berdasarkan jenis tugas:
+* `01.wav` – `18.wav`: Rekaman sesi wawancara/tanya jawab.
+* `19.wav`: Rekaman sesi membaca paragraf panjang.
+* `20.wav` – `25.wav`: Rekaman sesi membaca daftar kata secara individu.
+* `26.wav` – `29.wav`: Rekaman sesi deskripsi gambar secara spontan (umumnya paling emosional).
+*(Catatan: MODMA hanya menyediakan audio mentah dan Excel metadata klinis, tidak ada transcript otomatis maupun fitur akustik yang pre-extracted).*
 
 ---
 
@@ -73,3 +91,13 @@ Sebagaimana tergambar dalam script utama di direktori ini (`Part1_Dataset_Overvi
    * Skor 5-14: **Kecemasan**
    * Skor ≥ 15: **Depresi**
 4. **Distribusi Metadata**: Hasilnya dikompilasi menjadi `daic_metadata.csv` dan ditranslasikan dalam visualisasi statistik sebaran kelas untuk memberikan dasar kokoh terhadap tahapan *feature engineering* di minggu selanjutnya.
+
+Berikut adalah visualisasi hasil Exploratory Data Analysis (EDA) yang menunjukkan distribusi 3-kelas pada dataset DAIC-WOZ:
+
+![Distribusi Dataset DAIC-WOZ](./assets/images/daic/p1_distribusi_dataset.png)
+*Gambar: Distribusi label 3 kelas pada DAIC-WOZ (Stress, Kecemasan, Depresi), proporsi kelas, serta histogram penyebaran skor PHQ-8 dengan garis batas threshold.*
+
+Berikut adalah visualisasi hasil Exploratory Data Analysis (EDA) yang menunjukkan distribusi 3-kelas pada dataset MODMA:
+
+![Distribusi Dataset MODMA](./assets/images/modma/p1_distribusi_dataset_modma.png)
+*Gambar: Distribusi label 3 kelas pada MODMA (Stress, Kecemasan, Depresi), proporsi kelas, serta histogram penyebaran skor PHQ-9 dengan garis batas threshold.*
