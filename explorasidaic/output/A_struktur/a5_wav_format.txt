@@ -1,3 +1,0 @@
-Sample Rate  : {16000: 189}
-Channels     : {1: 189}
-Format       : {'PCM_16': 189}
